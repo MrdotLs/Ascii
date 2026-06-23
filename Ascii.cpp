@@ -14,9 +14,10 @@ typedef struct {
 }Imagedesc;
 
 
-int maint(void)
+int main(void)
 {
     char ramp[] = "@%#*+=-:.";
+    int ramplegnth = 9;
 
     int w,h,c;
     int R,G,B;
@@ -28,7 +29,7 @@ int maint(void)
     int index;
 
     Imagedesc *imagedesc = (Imagedesc*)malloc(sizeof(Imagedesc));
-    imagedesc->pixel = stbi_load("", &w,&h,&c, 3);
+    imagedesc->pixel = stbi_load("cat.jpg", &w,&h,&c, 3);
 
     if(imagedesc->pixel == NULL)
     {
@@ -39,18 +40,28 @@ int maint(void)
     imagedesc->height = h;
     imagedesc->channel = c;
 
-    L = 0.299 * R + 0.587 * G + 0.114 * B;
+   
 
-    xstep = targetwidth/targetheight;
+    targetwidth = 100;
+    xstep = imagedesc->width / targetwidth;
     ystep = xstep * 2;
 
     for(size_t y = 0; y < imagedesc-> height; y += ystep)
     {
         for(size_t x = 0; x < imagedesc -> width; x += xstep)
         {
-            index = (x*imagedesc->width + y)*imagedesc->channel;
+            index = (y * imagedesc->width + x) * 3;
+            R = imagedesc->pixel[index];
+            G = imagedesc->pixel[index + 1];
+            B = imagedesc->pixel[index + 2];
+            L = (int)(0.299*R + 0.587*G + 0.114*B);
+
             int i = static_cast<int>(index);
-            char c = ramp[i];
+            char characters = ramp[i];
+
+            std::cout<<characters;
+            std::cout<< '\n';
+            
         }
     }
 
