@@ -2,7 +2,8 @@
 #include <string>
 #include <vector>
 #include <cmath>
-#include <stb_image.h>
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
 
 using namespace std;
 
@@ -56,19 +57,11 @@ int main(void)
             B = imagedesc->pixel[index + 2];
             L = (int)(0.299*R + 0.587*G + 0.114*B);
 
-            int i = static_cast<int>(index);
+            int i = static_cast<int>((L/255.0)*(ramplegnth - 1));
             char characters = ramp[i];
 
             std::cout<<characters;
-            std::cout<< '\n';
-            
         }
+        std::cout<< '\n';
     }
-
-
-
-
-
-
-
 }
