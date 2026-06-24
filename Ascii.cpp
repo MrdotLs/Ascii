@@ -2,10 +2,14 @@
 #include <string>
 #include <vector>
 #include <cmath>
+
+#include <opencv2/opencv.hpp>
+
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
 using namespace std;
+using namespace cv;
 
 typedef struct {
     int width;
@@ -15,13 +19,14 @@ typedef struct {
 }Imagedesc;
 
 
-int main(void)
+void drawAscii(void)
 {
-    char ramp[] = "@%#*+=-:.";
-    int ramplegnth = 9;
+    char ramp[] = "MND8OZ$7I?+=~:,.. ";
+    int ramplegnth = 17;
 
     int w,h,c;
     int R,G,B;
+
     int L; //luminance
 
     int xstep, ystep;
@@ -30,11 +35,11 @@ int main(void)
     int index;
 
     Imagedesc *imagedesc = (Imagedesc*)malloc(sizeof(Imagedesc));
-    imagedesc->pixel = stbi_load("cat.jpg", &w,&h,&c, 3);
+    imagedesc->pixel = stbi_load("venom.png", &w,&h,&c, 3);
 
     if(imagedesc->pixel == NULL)
     {
-        return EXIT_FAILURE;
+        return;
     }
 
     imagedesc->width = w;
@@ -64,4 +69,34 @@ int main(void)
         }
         std::cout<< '\n';
     }
+    stbi_image_free(imagedesc->pixel);
+    free(imagedesc);
+}
+
+int main(void)
+{
+    Mat myImage;                                                                    
+    VideoCapture cap(0);
+    namedWindow("Video player");
+    cout<<"hi1"<<flush;
+    // if(!cap.isOpened())
+    // {
+    //     std::cout<<"Camera Failed";
+    //     return -1;
+    // }
+    // cout<<"hi1" ;
+
+    // while(true)
+    // {
+    //     cap >> myImage;
+    //     if(myImage.empty())break;
+
+    //     imshow("Video player", myImage);
+    //     char delay = (char)waitKey(25);
+    //     if((char)waitKey(25) == 27) break;
+ 
+    // }
+    // cap.release();
+    cout<<"hi";
+    return 0;
 }
